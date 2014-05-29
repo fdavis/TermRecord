@@ -81,16 +81,17 @@ def runScript(command=None):
             timingfname = timingf.name 
             scriptfname = scriptf.name
 
-    CMD.append('-t%s' % timingfname)
+    CMD.append('-t')
 
     if command:
         CMD.append('-c')
         CMD.append(command)
 
     CMD.append(scriptfname)
-
-    proc = Popen(CMD)
+    ferr=open(timingfname,'a+')
+    proc = Popen(CMD, stderr=ferr)
     proc.wait()
+    ferr.close()
     return open(scriptfname, 'r'), open(timingfname, 'r') 
 
 def runTtyrec(command=None):
